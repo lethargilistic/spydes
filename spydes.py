@@ -1,5 +1,6 @@
-from enum import Enum, unique
 from collections import namedtuple, UserList
+from enum import Enum, unique
+from random import randint, sample
 
 @unique
 class Suit(Enum):
@@ -49,18 +50,19 @@ class Deck(UserList):
         '''I found this abandoned pack of playing cards at the library. It's
         probably not complete... But what if it is...? Oh, wow. Who cares? Look
         at the design on the back! I'm keeping these.'''
-        self.clear()
-        from random import randint, choice, randrange, sample
-
+        self.clear() #Empty the Deck; must be first line of function
+        
         full_deck = Deck()
         full_deck.new_pack(jokers=randint(0,2))
 
-        self.data = sample(full_deck, randint(0,52))
+        self.data = sample(full_deck, randint(0,len(full_deck)))
 
     def draw(self):
+        '''Draw a card from the top of the Deck. Alias for list.pop().'''
         return self.pop()
 
     def shuffle(self):
+        '''Shuffle the Deck.'''
         pass
 
     #FIXME: Doesn't detect if there are more weights than cards.
