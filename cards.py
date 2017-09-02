@@ -28,21 +28,22 @@ class Value(Enum):
 
 standard_suits = [suit for suit in Suit if suit != Suit.JOKER]
 standard_values = [value for value in Value if value != Value.JOKER]
+
 Card = namedtuple('Card', ['Suit', 'Value'])
     
 class Deck(UserList):
     def __init__(self, cards=[]):
-        self._deck_holder = self.data = cards
+        self.data = cards
 
     def new_pack(self, jokers=0):
         self.clear()
 
         for _ in range(jokers):
-            self._deck_holder.append(Card(Suit.JOKER, Value.JOKER))
+            self.data.append(Card(Suit.JOKER, Value.JOKER))
 
         for suit in standard_suits:
             for value in standard_values:
-                self._deck_holder.append(Card(suit, value))
+                self.data.append(Card(suit, value))
 
     def found_pack(self):
         '''I found this abandoned pack of playing cards at the library. It's
@@ -53,10 +54,36 @@ class Deck(UserList):
     def draw(self):
         return self.pop()
 
+    def shuffle(self):
+        pass
+
+    #FIXME: Doesn't detect if there are more weights than cards.
+    #FIXME: Might have a bug where it loses a card if the slices are not even.
+    #For example, four cards and three slices. Testing needed.
+    def cut(self, weights):
+        '''Cut the deck. Each slice is given an integer weight, in order, from
+        the list `weights`.  The slices are returned in the order of their
+        weight. This means that a simple [1,0,2] will work, as will [2,1,3],
+        as will [0, -765, 100000].'''
+
+        #https://stackoverflow.com/a/7851166
+        positions = sorted(range(len(weights)), key=lambda k: weights[k])
+
+        cut_size = len(self.data) // len(weights)
+
+        new_deck = []
+        for p in positions:
+            new_deck += self.data[cut_size*p:cut_size*(p+1)]
+
+        self.data = new_deck
+
 if __name__ == '__main__':
     d = Deck()
-    d.new_pack(jokers=2)
-    d.insert(1, Card(Suit.CLUB, Value.ONE))
-
+    #d.new_pack(jokers=2)
+    d.append(Card(Suit.CLUB, 1))
+    d.append(Card(Suit.CLUB, 2))
+    d.append(Card(Suit.CLUB, 3))
+    d.cut([0,3,2])
+    print(d)
     for card in d:
         print(card)
