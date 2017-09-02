@@ -1,6 +1,6 @@
 from collections import namedtuple, UserList
 from enum import Enum, unique
-from random import randint, sample
+from random import randint, sample, shuffle
 
 @unique
 class Suit(Enum):
@@ -30,13 +30,18 @@ class Value(Enum):
 standard_suits = [suit for suit in Suit if suit != Suit.JOKER]
 standard_values = [value for value in Value if value != Value.JOKER]
 
-Card = namedtuple('Card', ['Suit', 'Value'])
+CardTuple = namedtuple('Card', ['Suit', 'Value'])
+class Card(CardTuple):
+    def __str__(self):
+        return "" + str(self.Suit) + "|" + str(self.Value)
     
 class Deck(UserList):
     def __init__(self, cards=[]):
         self.data = cards
 
     def new_pack(self, jokers=0):
+        '''Fill the Deck with a new, complete set of playing card with the
+        number of jokers desired'''
         self.clear()
 
         for _ in range(jokers):
@@ -63,33 +68,38 @@ class Deck(UserList):
 
     def shuffle(self):
         '''Shuffle the Deck.'''
-        pass
+        shuffle(self.data)
 
-    #FIXME: Doesn't detect if there are more weights than cards.
-    #FIXME: Might have a bug where it loses a card if the slices are not even.
-    #For example, four cards and three slices. Testing needed.
     def cut(self, weights):
-        '''Cut the deck. Each slice is given an integer weight, in order, from
-        the list `weights`.  The slices are returned in the order of their
-        weight. This means that a simple [1,0,2] will work, as will [2,1,3],
-        as will [0, -765, 100000].'''
-
+        '''Cut the deck, return the cuts as list elements. Each slice is given an
+        integer weight, in order, from the list `weights`.  The slices are
+        returned in the order of their weight. This means that a simple [1,0,2]
+        will work, as will [2,1,3], as will [0, -765, 100000].'''
         #https://stackoverflow.com/a/7851166
         positions = sorted(range(len(weights)), key=lambda k: weights[k])
 
         cut_size = len(self.data) // len(weights)
 
-        new_deck = []
+        deck_cuts = []
         for p in positions:
-            new_deck += self.data[cut_size*p:cut_size*(p+1)]
+            deck_cuts.append(self.data[cut_size*p:cut_size*(p+1)])
+
+        return deck_cuts
+
+    #FIXME: Doesn't detect if there are more weights than cards.
+    #FIXME: Might have a bug where it loses a card if the slices are not even.
+    #For example, four cards and three slices. Testing needed.
+    def cut_shuffle(self, weights):
+        new_deck = []
+        for cuts in self.cut(weights):
+            new_deck += cuts #self.data[cut_size*p:cut_size*(p+1)]
 
         self.data = new_deck
 
 if __name__ == '__main__':
     d = Deck()
-    #d.new_pack(jokers=2)
-    d.found_pack()
+    d.new_pack()
+    d.shuffle()
 
-    print(d)
     for card in d:
         print(card)
