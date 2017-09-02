@@ -34,13 +34,21 @@ class Deck(UserList):
     def __init__(self, cards=[]):
         self._deck_holder = self.data = cards
 
-    def fill(self, jokers=0):
+    def new_pack(self, jokers=0):
+        self.clear()
+
         for _ in range(jokers):
-            self._deck_holder.append(Card(Suit.JOKER, 0))
+            self._deck_holder.append(Card(Suit.JOKER, Value.JOKER))
 
         for suit in standard_suits:
             for value in standard_values:
                 self._deck_holder.append(Card(suit, value))
+
+    def found_pack(self):
+        '''I found this abandoned pack of playing cards at the library. It's
+        probably not complete... But what if it is...? Oh, wow. Who cares? Look
+        at the design on the back! I'm keeping these.'''
+        pass
 
     def draw(self):
         return self.pop()
@@ -50,7 +58,7 @@ class Deck(UserList):
 
 if __name__ == '__main__':
     d = Deck()
-    d.fill(jokers=2)
+    d.new_pack(jokers=2)
 
     for card in d:
         print(card)
