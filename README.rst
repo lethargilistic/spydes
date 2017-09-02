@@ -1,5 +1,5 @@
-Cards
------
+Spydes
+------
 
 Well documented, Python3-exclusive playing cards in four suits, with and without
 jokers.
