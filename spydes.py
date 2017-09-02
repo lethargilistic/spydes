@@ -30,6 +30,7 @@ class Value(Enum):
 standard_suits = [suit for suit in Suit if suit != Suit.JOKER]
 standard_values = [value for value in Value if value != Value.JOKER]
 
+#FIXME: Output a nice string for the card
 CardTuple = namedtuple('Card', ['Suit', 'Value'])
 class Card(CardTuple):
     def __str__(self):
@@ -94,7 +95,7 @@ class Deck(UserList):
     #FIXME: Doesn't detect if there are more weights than cards.
     #FIXME: Might have a bug where it loses a card if the slices are not even.
     #For example, four cards and three slices. Testing needed.
-    def cut_shuffle(self, weights):
+    def shuffle_cut(self, weights):
         '''Shuffle the deck by cutting the cards'''
         new_deck = []
         for cuts in self.cut(weights):
