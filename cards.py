@@ -49,7 +49,13 @@ class Deck(UserList):
         '''I found this abandoned pack of playing cards at the library. It's
         probably not complete... But what if it is...? Oh, wow. Who cares? Look
         at the design on the back! I'm keeping these.'''
-        pass
+        self.clear()
+        from random import randint, choice, randrange, sample
+
+        full_deck = Deck()
+        full_deck.new_pack(jokers=randint(0,2))
+
+        self.data = sample(full_deck, randint(0,52))
 
     def draw(self):
         return self.pop()
@@ -80,10 +86,8 @@ class Deck(UserList):
 if __name__ == '__main__':
     d = Deck()
     #d.new_pack(jokers=2)
-    d.append(Card(Suit.CLUB, 1))
-    d.append(Card(Suit.CLUB, 2))
-    d.append(Card(Suit.CLUB, 3))
-    d.cut([0,3,2])
+    d.found_pack()
+
     print(d)
     for card in d:
         print(card)
