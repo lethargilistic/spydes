@@ -53,12 +53,10 @@ class Deck(UserList):
     def draw(self):
         return self.pop()
 
-    def insert(card, position=0):
-        self.insert(card)
-
 if __name__ == '__main__':
     d = Deck()
     d.new_pack(jokers=2)
+    d.insert(1, Card(Suit.CLUB, Value.ONE))
 
     for card in d:
         print(card)
