@@ -49,7 +49,7 @@ class Card(CardTuple):
         terminals, assuming not all are supported properly.'''
         if self.Suit == Suit.JOKER:
             if vary_jokers:
-                return "_🃏🃟🂿"[self.Value.value]
+                return "_🃏🃟🂿"[self.Value.value%3+1] #%3+1 is just extra assurance
             else:
                 return "🃏"
 
@@ -72,6 +72,7 @@ class Deck(UserList):
 
         for each_pack in range(packs):
             for number in range(jokers):
+                #%3+1 puts Joker within the range of the three Unicode jokers
                 self.data.append(Card(Suit.JOKER, Value(number%3+1)))
 
             for suit in standard_suits:
@@ -99,6 +100,20 @@ class Deck(UserList):
         '''Deal from the Deck into the hand'''
         hand += self.draw(count)
 
+    def place_bottom(self, cards):
+        '''Place cards on the bottom of the deck. Works with individual Card
+        and lists of Card.'''
+        if not isinstance(cards, list):
+            cards = [cards]
+        self.data += cards
+
+    def place_top(self, cards):
+        '''Place cards on the top of the deck. Works with individual Card
+        and lists of Card.'''
+        if not isinstance(cards, list):
+            cards = [cards]
+        self.data = cards + self.data
+
     def draw(self, count=1):
         '''Draw cards from the top of the Deck. Returns a list'''
         cards = self.data[:count]
@@ -107,7 +122,8 @@ class Deck(UserList):
 
     def rotate(self, count=1):
         '''Rotate a card from the top of the deck to the bottom of the deck.'''
-        pass
+        cards = self.draw(count)
+        self.place_bottom(cards)
 
     def peek_top(self, count=1):
         '''Look at cards off the top of the deck.'''
@@ -117,6 +133,11 @@ class Deck(UserList):
         '''Look at cards off the top of the deck.'''
         return self.data[-count:]
 
+    def sort(self):
+        '''Sorts the cards in the order of Suit, then Value. Jokers first
+        overall.'''
+        pass
+    
     def shuffle(self):
         '''Shuffle the Deck using random.shuffle().'''
         shuffle(self.data)
@@ -164,11 +185,16 @@ if __name__ == '__main__':
 
     h = Hand()
     d.deal(h, 5)
+    for card in h:
+        print(card.unicard(True))
+    print()
+
+    h.rotate(1)
 
     for card in h:
         print(card.unicard(True))
     print()
-    for card in d:
-        print(card.unicard(True))
+    #for card in d:
+    #    print(card.unicard(True))
 
-    print(h)
+    #print(h)
