@@ -1,19 +1,19 @@
 from collections import namedtuple, UserList
 from enum import Enum, unique
 from random import choice, randint, sample, shuffle
+from unicards import unicard
 
 @unique
 class Suit(Enum):
-    JOKER = 0
-    CLUB = 1
-    SPADE = 2
-    DIAMOND = 3
-    HEART = 4
+    JOKER = "*"
+    CLUB = "C"
+    SPADE = "S"
+    DIAMOND = "D"
+    HEART = "H"
 
 @unique
 class Value(Enum):
-    JOKER = 0
-    ONE = 1
+    ACE = 1
     TWO = 2
     THREE = 3
     FOUR = 4
@@ -28,13 +28,33 @@ class Value(Enum):
     KING = 13
 
 standard_suits = [suit for suit in Suit if suit != Suit.JOKER]
-standard_values = [value for value in Value if value != Value.JOKER]
+standard_values = [value for value in Value]
 
-#FIXME: Output a nice string for the card
 CardTuple = namedtuple('Card', ['Suit', 'Value'])
 class Card(CardTuple):
     def __str__(self):
-        return "" + str(self.Suit) + "|" + str(self.Value)
+        string = "_A23456789TJQK"[self.Value.value]
+        string += self.Suit.value
+        return string
+    
+    def unicard(self, vary_jokers=False):
+        '''Returns a unicode card representation of the card.
+
+        If vary_jokers is True, then all three unicode jokers may be
+        represented. The Value of a joker card (1,2,3) determines which is
+        shown.
+        
+        If vary_jokers is False, then all jokers will look like the 1 joker
+        card. That 1 joker is one most likely to work correctly in
+        terminals, assuming not all are supported properly.'''
+        if self.Suit == Suit.JOKER:
+            if vary_jokers:
+                return "_🃏🃟🂿"[self.Value.value]
+            else:
+                return "🃏"
+
+        return unicard("_A23456789TJQK"[self.Value.value] + self.Suit.value.lower())
+
 
 class Hand(UserList):
     def __init__(self, cards=[]):
@@ -55,8 +75,8 @@ class Deck(UserList):
         self.clear() #Empty the Deck; must be first line of function
 
         for each_pack in range(packs):
-            for _ in range(jokers):
-                self.data.append(Card(Suit.JOKER, Value.JOKER))
+            for number in range(jokers):
+                self.data.append(Card(Suit.JOKER, Value(number%3+1)))
 
             for suit in standard_suits:
                 for value in standard_values:
@@ -125,12 +145,16 @@ class Deck(UserList):
 
 if __name__ == '__main__':
     d = Deck()
-    d.new_pack(2, 2)
+    d.new_pack(jokers=6)
 
     h = Hand()
 
     for card in h:
-        print(card)
+        print(card.unicard(True))
     print()
     for card in d:
-        print(card)
+        try:
+            print(card.unicard(True))
+        except ValueError:
+            print(card.Value.name[0] + card.Suit.name[0].lower())
+            continue
