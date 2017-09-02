@@ -42,7 +42,7 @@ class Deck(UserList):
     def new_pack(self, jokers=0):
         '''Fill the Deck with a new, complete set of playing card with the
         number of jokers desired'''
-        self.clear()
+        self.clear() #Empty the Deck; must be first line of function
 
         for _ in range(jokers):
             self.data.append(Card(Suit.JOKER, Value.JOKER))
@@ -62,8 +62,13 @@ class Deck(UserList):
 
         self.data = sample(full_deck, randint(0,len(full_deck)))
 
-    def draw(self):
-        '''Draw a card from the top of the Deck. Alias for list.pop().'''
+    def draw(self, count=1):
+        '''Draw cards from the top of the Deck. If you draw more than one card,
+        the cards are returned in a list.'''
+        if count > 1:
+            cards = self.data[:count]
+            self.data = self.data[count:]
+
         return self.pop()
 
     def shuffle(self):
@@ -90,6 +95,7 @@ class Deck(UserList):
     #FIXME: Might have a bug where it loses a card if the slices are not even.
     #For example, four cards and three slices. Testing needed.
     def cut_shuffle(self, weights):
+        '''Shuffle the deck by cutting the cards'''
         new_deck = []
         for cuts in self.cut(weights):
             new_deck += cuts #self.data[cut_size*p:cut_size*(p+1)]
