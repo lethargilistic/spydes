@@ -105,6 +105,10 @@ class Deck(UserList):
         self.data = self.data[count:]
         return cards
 
+    def rotate(self, count=1):
+        '''Rotate a card from the top of the deck to the bottom of the deck.'''
+        pass
+
     def peek_top(self, count=1):
         '''Look at cards off the top of the deck.'''
         return self.data[:count]
@@ -119,6 +123,7 @@ class Deck(UserList):
 
     #FIXME: Doesn't detect if there are more weights than cards.
     #FIXME: Might have a bug where it loses a card if the slices are not even.
+    #For example, four cards and three slices. Testing needed.
     def cut(self, weights):
         '''Cut the deck, return the cuts as list elements. Each slice is given an
         integer weight, in order, from the list `weights`.  The slices are
@@ -138,13 +143,12 @@ class Deck(UserList):
 
         return deck_cuts
 
-    #For example, four cards and three slices. Testing needed.
     def shuffle_cut(self, weights):
         '''Shuffle the deck by cutting the cards, replacing the cuts in the
         order of their weights as determined by the cut() function'''
         new_deck = []
         for cuts in self.cut(weights):
-            new_deck += cuts #self.data[cut_size*p:cut_size*(p+1)]
+            new_deck += cuts
 
         self.data = new_deck
 
@@ -156,9 +160,10 @@ class Hand(Deck):
 
 if __name__ == '__main__':
     d = Deck()
-    d.new_pack(jokers=6)
+    d.new_pack()
 
-    h = Hand(d.peek_bottom(5))
+    h = Hand()
+    d.deal(h, 5)
 
     for card in h:
         print(card.unicard(True))
