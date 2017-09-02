@@ -9,7 +9,7 @@ else's project. I'm not a jerk.
 
 How to use it
 -------------
-You can instantiate a Deck() from which to draw(), cut(\*segment_order), or
+You can instantiate a Deck() from which to draw(), cut(\*weights), or
 shuffle().
 
 How to license it
