@@ -1,6 +1,6 @@
 from collections import namedtuple, UserList
 from enum import Enum, unique
-from random import randint, sample, shuffle
+from random import choice, randint, sample, shuffle
 
 @unique
 class Suit(Enum):
@@ -35,22 +35,32 @@ CardTuple = namedtuple('Card', ['Suit', 'Value'])
 class Card(CardTuple):
     def __str__(self):
         return "" + str(self.Suit) + "|" + str(self.Value)
+
+class Hand(UserList):
+    def __init__(self, cards=[]):
+        self.data = cards
+
+    def discard_random(self, count=1):
+        '''Discard [count] random cards.'''
+        for _ in range(count):
+            self.data.remove(choice(self.data))
     
 class Deck(UserList):
     def __init__(self, cards=[]):
         self.data = cards
 
-    def new_pack(self, jokers=0):
+    def new_pack(self, packs=1, jokers=0):
         '''Fill the Deck with a new, complete set of playing card with the
         number of jokers desired'''
         self.clear() #Empty the Deck; must be first line of function
 
-        for _ in range(jokers):
-            self.data.append(Card(Suit.JOKER, Value.JOKER))
+        for each_pack in range(packs):
+            for _ in range(jokers):
+                self.data.append(Card(Suit.JOKER, Value.JOKER))
 
-        for suit in standard_suits:
-            for value in standard_values:
-                self.data.append(Card(suit, value))
+            for suit in standard_suits:
+                for value in standard_values:
+                    self.data.append(Card(suit, value))
 
     def found_pack(self):
         '''I found this abandoned pack of playing cards at the library. It's
@@ -63,14 +73,24 @@ class Deck(UserList):
 
         self.data = sample(full_deck, randint(0,len(full_deck)))
 
-    def draw(self, count=1):
-        '''Draw cards from the top of the Deck. If you draw more than one card,
-        the cards are returned in a list.'''
-        if count > 1:
-            cards = self.data[:count]
-            self.data = self.data[count:]
+    
+    def deal(self, hand, count=1):
+        '''Deal from the Deck into the hand'''
+        hand += self.draw(count)
 
-        return self.pop()
+    def draw(self, count=1):
+        '''Draw cards from the top of the Deck. Returns a list'''
+        cards = self.data[:count]
+        self.data = self.data[count:]
+        return cards
+
+    def peek(self, count=1, see_all=True):
+        if see_all:
+            start = 0
+        else:
+            start = count-1
+
+        return self.data[start:count]
 
     def shuffle(self):
         '''Shuffle the Deck.'''
@@ -105,8 +125,12 @@ class Deck(UserList):
 
 if __name__ == '__main__':
     d = Deck()
-    d.new_pack()
-    d.shuffle()
+    d.new_pack(2, 2)
 
+    h = Hand()
+
+    for card in h:
+        print(card)
+    print()
     for card in d:
         print(card)
