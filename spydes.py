@@ -55,19 +55,15 @@ class Card(CardTuple):
 
         return unicard("_A23456789TJQK"[self.Value.value] + self.Suit.value.lower())
 
-
-class Hand(UserList):
-    def __init__(self, cards=[]):
-        self.data = cards
-
-    def discard_random(self, count=1):
-        '''Discard [count] random cards.'''
-        for _ in range(count):
-            self.data.remove(choice(self.data))
-    
 class Deck(UserList):
     def __init__(self, cards=[]):
         self.data = cards
+    
+    def __str__(self):
+        string = '[' + str(self.data[0])
+        for card in self.data[1:]:
+            string += ', ' + str(card)
+        return string + ']'
 
     def new_pack(self, packs=1, jokers=0):
         '''Fill the Deck with a new, complete set of playing card with the
@@ -94,6 +90,11 @@ class Deck(UserList):
         self.data = sample(full_deck, randint(0,len(full_deck)))
 
     
+    def discard_random(self, count=1):
+        '''Discard [count] random cards.'''
+        for _ in range(count):
+            self.data.remove(choice(self.data))
+            
     def deal(self, hand, count=1):
         '''Deal from the Deck into the hand'''
         hand += self.draw(count)
@@ -104,23 +105,28 @@ class Deck(UserList):
         self.data = self.data[count:]
         return cards
 
-    def peek(self, count=1, see_all=True):
-        if see_all:
-            start = 0
-        else:
-            start = count-1
+    def peek_top(self, count=1):
+        '''Look at cards off the top of the deck.'''
+        return self.data[:count]
 
-        return self.data[start:count]
+    def peek_bottom(self, count=1):
+        '''Look at cards off the top of the deck.'''
+        return self.data[-count:]
 
     def shuffle(self):
-        '''Shuffle the Deck.'''
+        '''Shuffle the Deck using random.shuffle().'''
         shuffle(self.data)
 
+    #FIXME: Doesn't detect if there are more weights than cards.
+    #FIXME: Might have a bug where it loses a card if the slices are not even.
     def cut(self, weights):
         '''Cut the deck, return the cuts as list elements. Each slice is given an
         integer weight, in order, from the list `weights`.  The slices are
         returned in the order of their weight. This means that a simple [1,0,2]
         will work, as will [2,1,3], as will [0, -765, 100000].'''
+        if len(weights) > len(self):
+            raise IndexError('There are more slices to your cut than cards in the deck')
+
         #https://stackoverflow.com/a/7851166
         positions = sorted(range(len(weights)), key=lambda k: weights[k])
 
@@ -132,29 +138,32 @@ class Deck(UserList):
 
         return deck_cuts
 
-    #FIXME: Doesn't detect if there are more weights than cards.
-    #FIXME: Might have a bug where it loses a card if the slices are not even.
     #For example, four cards and three slices. Testing needed.
     def shuffle_cut(self, weights):
-        '''Shuffle the deck by cutting the cards'''
+        '''Shuffle the deck by cutting the cards, replacing the cuts in the
+        order of their weights as determined by the cut() function'''
         new_deck = []
         for cuts in self.cut(weights):
             new_deck += cuts #self.data[cut_size*p:cut_size*(p+1)]
 
         self.data = new_deck
 
+class Hand(Deck):
+    '''An alias for the Deck class that allows you to differentiate hands by
+    type.'''
+    def __init__(self, cards=[]):
+        self.data = cards
+
 if __name__ == '__main__':
     d = Deck()
     d.new_pack(jokers=6)
 
-    h = Hand()
+    h = Hand(d.peek_bottom(5))
 
     for card in h:
         print(card.unicard(True))
     print()
     for card in d:
-        try:
-            print(card.unicard(True))
-        except ValueError:
-            print(card.Value.name[0] + card.Suit.name[0].lower())
-            continue
+        print(card.unicard(True))
+
+    print(h)
