@@ -54,7 +54,7 @@ class Value(Enum):
     ALAS = 1
     BULL = 1
     BULLET = 1
-    EYES = 1
+    EYE = 1
     MASTERCARD = 1
     ONE_SPOT = 1
     ROCKET = 1

@@ -60,7 +60,8 @@ standard_suits
 ______________
 For your convenience, spydes also provides a list called `standard_suits` that
 includes only the four suits, without the Joker. You may iterate through this if
-you want to do some aggregate operation with just the suits.
+you want to do some aggregate operation with just the suits. All of these
+nicknames are singular, not plural.
 
 .. code-block:: python
     >>> for suit in standard_suits:
@@ -79,7 +80,8 @@ values by name.
 
 A generous assortment of alternative names for the values are available, but if
 there's a nickname that is shared between two values, that has been omitted. For
-example, there is no Value.SHARP_TOP because that refers to Aces and Fours.
+example, there is no Value.SHARP_TOP because that refers to Aces and Fours. All
+of these nicknames are singular, not plural.
 
 
 standard_values
