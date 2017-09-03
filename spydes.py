@@ -155,6 +155,16 @@ class Card(namedtuple('Card', ['Suit', 'Value'])):
         output += self.Suit.value
         return output
     
+    def same_suit(self, card):
+        '''Does card have the same suit as self?'''
+        return self.Suit == card.Suit
+
+    def same_value(self, card):
+        '''Does card have the same value as self? All Jokers are equivalent,
+        regardless of value.'''
+        both_jokers = self.Suit == Suit.JOKER and card.Suit == Suit.JOKER
+        return self.Value == card.Value or both_jokers
+
     def unicard(self, vary_jokers=False):
         '''Returns a unicode card representation of the card.
 
@@ -225,6 +235,18 @@ class Deck(UserList):
 
         self.data = sample(full_deck, randint(0,len(full_deck)))
     
+    #TODO
+    def discard_suit(self, suit):
+        pass
+
+    #TODO
+    def discard_value(self, value):
+        pass
+
+    #TODO
+    def discard_specific(self, card):
+        pass
+    
     def discard_random(self, count=1):
         '''Discard [count] random cards.'''
         for _ in range(count):
@@ -287,23 +309,18 @@ class Deck(UserList):
         self.data = new_deck
 
     def cut(self, weights):
-        '''Cut the deck, return the cuts as list elements. Each slice is given an
-        integer weight, in order, from the list `weights`.  The slices are
+        '''Cut the deck, return the cuts as list elements. Each cut is given an
+        integer weight, in order, from the list `weights`.  The cut are
         returned in the order of their weight. This means that a simple [1,0,2]
         will work, as will [2,1,3], as will [0, -765, 100000].'''
         if len(weights) > len(self):
-            raise IndexError('There are more slices to your cut than there are cards')
+            raise IndexError('There are more cuts than there are cards')
 
         #https://stackoverflow.com/a/7851166
         positions = sorted(range(len(weights)), key=lambda k: weights[k])
 
         large_cut_size = ceil(len(self.data) / len(positions))
         small_cut_size = floor(len(self.data) / len(positions))
-
-        deck_cuts = []
-        #Break the deck into optimally smooth cuts
-        position = 0
-        remaining_cuts = len(weights)
 
         # The optimally smooth cut can be found with an iterative algorithm
         #  1) Take all the large cuts until you can fill the rest with small cuts
@@ -313,15 +330,19 @@ class Deck(UserList):
         # A worked example:
         # 13 cards, 5 cuts (large cut: 3, small cut: 2)
         #
-        # (13 - 0) % (2 * 5) = 3 (take a large slice of 3, position+=3, cuts-=1)
-        # (13 - 3) % (2 * 4) = 2 (take a large slice of 3, position+=3, cuts-=1)
-        # (13 - 6) % (2 * 3) = 1 (take a large slice of 3, position+=3, cuts-=1)
+        # (13 - 0) % (2 * 5) = 3 (take a large cut of 3, position+=3, cuts-=1)
+        # (13 - 3) % (2 * 4) = 2 (take a large cut of 3, position+=3, cuts-=1)
+        # (13 - 6) % (2 * 3) = 1 (take a large cut of 3, position+=3, cuts-=1)
         # (13 - 9) % (2 * 2) = 0 (It equals 0, so the rest are small cuts.)
         # There are 2 more cuts until we hit our target.
         #
         # 3 large cuts of 3 cards + 2 small cuts of 2 cards = 9 + 4 = 13. Correct!
         # 
         # Note that the modulo sequence 3,2,1,0 in this example is a coincidence.
+        deck_cuts = []
+        position = 0
+        remaining_cuts = len(weights)
+        
         while (len(self.data) - position) % (small_cut_size * remaining_cuts) != 0:
             deck_cuts.append(self.data[position:position+large_cut_size])
             position += large_cut_size
