@@ -4,7 +4,6 @@ from math import ceil, floor
 from random import choice, randint, sample, shuffle
 from unicards import unicard
 
-@unique
 class Suit(Enum):
     JOKER = "*"
     CLUB = "C"
@@ -12,9 +11,9 @@ class Suit(Enum):
     DIAMOND = "D"
     HEART = "H"
 
-@unique
 class Value(Enum):
     ACE = 1
+    ONE = 1
     TWO = 2
     THREE = 3
     FOUR = 4
@@ -50,7 +49,7 @@ class Card(CardTuple):
         terminals, assuming not all are supported properly.'''
         if self.Suit == Suit.JOKER:
             if vary_jokers:
-                return "_🃏🃟🂿"[self.Value.value%3+1] #%3+1 is just extra assurance
+                return "_🃏🃟🂿"[self.Value.value%3+1] #%3+1 guarantees list bounds
             else:
                 return "🃏"
 
