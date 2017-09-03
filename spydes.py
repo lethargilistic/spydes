@@ -5,148 +5,148 @@ from random import choice, randint, sample, shuffle
 from unicards import unicard
 
 class Suit(Enum):
-    JOKER = "*"
-    SPADE = "S"
-    HEART = "H"
-    DIAMOND = "D"
-    CLUB = "C"
+    joker = "*"
+    spade = "S"
+    heart = "H"
+    diamond = "D"
+    club = "C"
 
-    WILDCARD = "*"
-    PAGLIACCI = "*"
-    OLD_MAID = "*"
-    TRUMP_CARD = "*"
-    BEST_BOWER = "*"
-    THE_FOOL = "*"
-    THE_FLY = "*"
-    THE_BIRD = "*"
+    wildcard = "*"
+    pagliacci = "*"
+    old_maid = "*"
+    trump_carD = "*"
+    best_boweR = "*"
+    the_fool = "*"
+    the_fly = "*"
+    the_bird = "*"
 
-    LEAF = "S"
-    SHIELD = "S" 
+    leaf = "S"
+    shield = "S" 
     
-    ROSE = "H" 
+    rose = "H" 
 
-    TILE = "D"
-    BELL = "D"
+    tile = "D"
+    bell = "D"
 
-    ACORN = "C"
+    acorn = "C"
 
-all_suits = [Suit.SPADE, Suit.HEART, Suit.DIAMOND, Suit.CLUB]
-red_suits = [Suit.HEART, Suit.DIAMOND]
-black_suits = [Suit.SPADE, Suit.CLUB]
+all_suits = [Suit.spade, Suit.heart, Suit.diamond, Suit.club]
+red_suits = [Suit.heart, Suit.diamond]
+black_suits = [Suit.spade, Suit.club]
 
 class Value(Enum):
-    ACE = 1
-    ONE = 1
-    TWO = 2
-    THREE = 3
-    FOUR = 4
-    FIVE = 5
-    SIX = 6
-    SEVEN = 7
-    EIGHT = 8
-    NINE = 9
-    TEN = 10
-    JACK = 11
-    QUEEN = 12
-    KING = 13
+    ace = 1
+    one = 1
+    two = 2
+    three = 3
+    four = 4
+    five = 5
+    six = 6
+    seven = 7
+    eight = 8
+    nine = 9
+    ten = 10
+    jack = 11
+    queen = 12
+    king = 13
 
-    A = 1
-    ALAS = 1
-    BULL = 1
-    BULLET = 1
-    EYE = 1
-    MASTERCARD = 1
-    ONE_SPOT = 1
-    ROCKET = 1
-    SEED = 1
-    SPIKE = 1
-    SPOT = 1
+    a = 1
+    alas = 1
+    bull = 1
+    bullet = 1
+    eye = 1
+    mastercard = 1
+    one_spot = 1
+    rocket = 1
+    seed = 1
+    spike = 1
+    spot = 1
 
-    DEUCE = 2
-    DEWEY = 2
-    DUCK = 2
-    SWAN = 2
+    deuce = 2
+    dewey = 2
+    duck = 2
+    swan = 2
 
-    CRAB = 3
-    BUTTS = 3
-    TREY = 3
+    crab = 3
+    butts = 3
+    trey = 3
 
-    BOAT = 4
-    FOUR_SPOT = 4
-    ONE_LEGGED_ACE = 4
-    BROKEN_ACE = 4
-    SAILBOAT = 4
+    boat = 4
+    four_spot = 4
+    one_legged_ace = 4
+    broken_ace = 4
+    sailboat = 4
     
-    FIVE_SPOT = 5
-    NICKEL = 5
-    PEDRO = 5
-    FEVER = 5
+    five_spot = 5
+    nickel = 5
+    pedro = 5
+    fever = 5
 
-    BOOT = 6
-    SAX = 6
-    SEX = 6
+    boot = 6
+    sax = 6
+    sex = 6
 
-    CANDY_CANE = 7
-    HOCKEY_STICK = 7
-    MULLET = 7
-    SALMON = 7
-    WALKING_STICK = 7
+    candy_cane = 7
+    hockey_stick = 7
+    mullet = 7
+    salmon = 7
+    walking_stick = 7
 
-    FAT_LADY = 8
-    OCHO = 8
-    SNOWMAN = 8
-    EIGHT_LAND = 8
-    RACE_TRACK = 8
-    TIME_TRAVEL = 8
-    HOG_NADS = 8
+    fat_lady = 8
+    ocho = 8
+    snowman = 8
+    eight_land = 8
+    race_track = 8
+    time_travel = 8
+    hog_nads = 8
 
-    NEENER = 9
-    NINA_ROSS = 9
-    NINER = 9
-    POTHOOK = 9
+    neener = 9
+    nina_ross = 9
+    niner = 9
+    pothook = 9
 
-    T = 10
-    DIME = 10
-    SAWBUCK = 10
-    BO_DEREK = 10
+    t = 10
+    dime = 10
+    sawbuck = 10
+    bo_derek = 10
 
-    J = 11
-    BOY = 11
-    BOWER = 11
-    FISHHOOK = 11
-    HOOK = 11
-    J_BIRD = 11
-    J_BOY = 11
-    JACKAL = 11
-    JACKSON = 11
-    JACKSONVILLE = 11
-    JAKE = 11
-    JOHN = 11
-    JOHNNY = 11
-    JOHNSON = 11
-    KNAVE = 11
-    VALET = 11
+    j = 11
+    boy = 11
+    bower = 11
+    fishhook = 11
+    hook = 11
+    j_bird = 11
+    j_boy = 11
+    jackal = 11
+    jackson = 11
+    jacksonville = 11
+    jake = 11
+    john = 11
+    johnny = 11
+    johnson = 11
+    knave = 11
+    valet = 11
 
-    Q = 12
-    COWGIRL = 12
-    DAME = 12
-    LADY = 12
-    GIRL = 12
-    HEN = 12
-    JOY_GIRL = 12
-    PAINTED_LADY = 12
-    MOP_SQUEEZER = 12
-    STENOGRAPHER = 12
+    q = 12
+    cowgirl = 12
+    dame = 12
+    lady = 12
+    girl = 12
+    hen = 12
+    joy_girl = 12
+    painted_lady = 12
+    mop_squeezer = 12
+    stenographer = 12
 
-    K = 13
-    COWBOY = 13
-    K_BOY = 13
-    MONARCH = 13
-    SERGEANT = 13
+    k = 13
+    cowboy = 13
+    k_boy = 13
+    monarch = 13
+    sergeant = 13
 
 all_values = [Value(rank) for rank in range(1,14)]
-face_values = [Value.KING, Value.QUEEN, Value.JACK]
-broadway_values = [Value.ACE, Value.KING, Value.QUEEN, Value.JACK, Value.TEN]
+face_values = [Value.king, Value.queen, Value.jack]
+broadway_values = [Value.ace, Value.king, Value.queen, Value.jack, Value.ten]
 number_values = [Value(rank) for rank in range(1,11)]
 
 class Card(namedtuple('Card', ['Suit', 'Value'])):
@@ -162,7 +162,7 @@ class Card(namedtuple('Card', ['Suit', 'Value'])):
     def same_value(self, card):
         '''Does card have the same value as self? All Jokers are equivalent,
         regardless of value.'''
-        both_jokers = self.Suit == Suit.JOKER and card.Suit == Suit.JOKER
+        both_jokers = self.Suit == Suit.joker and card.Suit == Suit.joker
         return self.Value == card.Value or both_jokers
 
     def unicard(self, vary_jokers=False):
@@ -175,7 +175,7 @@ class Card(namedtuple('Card', ['Suit', 'Value'])):
         If vary_jokers is False, then all jokers will look like the 1 joker
         card. That 1 joker is one most likely to work correctly in
         terminals, assuming not all are supported properly.'''
-        if self.Suit == Suit.JOKER:
+        if self.Suit == Suit.joker:
             if vary_jokers:
                 return "_🃏🃟🂿"[self.Value.value%3+1] #%3+1 guarantees list bounds
             else:
@@ -201,28 +201,34 @@ class Deck(UserList):
         for each_pack in range(packs):
             for number in range(jokers):
                 #%3+1 puts Joker within the range of the three Unicode jokers
-                self.data.append(Card(Suit.JOKER, Value(number%3+1)))
+                self.data.append(Card(Suit.joker, Value(number%3+1)))
 
-            for suit in standard_suits:
-                for value in standard_values:
+            for suit in all_suits:
+                for value in all_values:
                     self.data.append(Card(suit, value))
 
-    def fill_suit(self, suit, count=1):
+    def fill_suit(self, suits, count=1):
         '''Add all cards of a suit. Count is the number of times you want to add
-        all the cards from that suit. You may use Suit.JOKER to get one Joker.'''
-        for num in range(count):
-            if suit == Suit.JOKER:
-               self.data.append(Card(Suit.JOKER, Value(num%3+1)))
-            else:
-                for value in Value:
-                    self.data.append(Card(suit, value))
+        all the cards from that suit. You may use Suit.joker to get one Joker.'''
+        suits = suits if isinstance(suits, list) else [suits]
 
-    def fill_value(self, value, count=1):
+        for suit in suits:
+            for num in range(count):
+                if suit == Suit.joker:
+                   self.data.append(Card(Suit.joker, Value(num%3+1)))
+                else:
+                    for value in Value:
+                        self.data.append(Card(suit, value))
+
+    def fill_value(self, values, count=1):
         '''Add all cards of a value. No Jokers. If you want to add jokers
         similarly, use fill_suit()'''
-        for _ in range(count):
-            for suit in Suit:
-                self.data.append(Card(suit, value))
+        values = values if isinstance(values, list) else [values]
+        
+        for value in values:
+            for _ in range(count):
+                for suit in Suit:
+                    self.data.append(Card(suit, value))
 
     def found_pack(self):
         '''I found this abandoned pack of playing cards at the library. It's
@@ -266,8 +272,7 @@ class Deck(UserList):
     def place_top(self, cards):
         '''Place cards on the top of the deck. Works with individual Card
         and lists of Card.'''
-        if not isinstance(cards, list):
-            cards = [cards]
+        cards = cards if isinstance(cards, list) else [cards]
         self.data = cards + self.data
 
     def draw(self, count=1):
@@ -379,7 +384,5 @@ class Hand(Deck):
 
 if __name__ == '__main__':
     d = Deck()
-    d.fill_suit(Suit.SPADE)
-    d.fill_suit(Suit.DIAMOND, 2)
-    d.fill_suit(Suit.JOKER, 6)
-    print(d.unicard())
+    d.fill_suit(Suit.spade)
+    print(repr(d))
