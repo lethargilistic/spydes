@@ -6,10 +6,29 @@ from unicards import unicard
 
 class Suit(Enum):
     JOKER = "*"
-    CLUB = "C"
     SPADE = "S"
-    DIAMOND = "D"
     HEART = "H"
+    DIAMOND = "D"
+    CLUB = "C"
+
+    WILDCARD = "*"
+    PAGLIACCI = "*"
+    OLD_MAID = "*"
+    TRUMP_CARD = "*"
+    BEST_BOWER = "*"
+    THE_FOOL = "*"
+    THE_FLY = "*"
+    THE_BIRD = "*"
+
+    LEAF = "S"
+    SHIELD = "S" 
+    
+    ROSE = "H" 
+
+    TILE = "D"
+    BELL = "D"
+
+    ACORN = "C"
 
 class Value(Enum):
     ACE = 1
@@ -27,8 +46,108 @@ class Value(Enum):
     QUEEN = 12
     KING = 13
 
-standard_suits = [suit for suit in Suit if suit != Suit.JOKER]
-standard_values = [value for value in Value]
+    A = 1
+    ALAS = 1
+    BULL = 1
+    BULLET = 1
+    EYES = 1
+    MASTERCARD = 1
+    ONE_SPOT = 1
+    ROCKET = 1
+    SEED = 1
+    SPIKE = 1
+    SPOT = 1
+
+    DEUCE = 2
+    DEWEY = 2
+    DUCK = 2
+    SWAN = 2
+
+    CRAB = 3
+    BUTTS = 3
+    TREY = 3
+
+    BOAT = 4
+    FOUR_SPOT = 4
+    ONE_LEGGED_ACE = 4
+    BROKEN_ACE = 4
+    SAILBOAT = 4
+    
+    FIVE_SPOT = 5
+    NICKEL = 5
+    PEDRO = 5
+    FEVER = 5
+
+    BOOT = 6
+    SAX = 6
+    SEX = 6
+
+    CANDY_CANE = 7
+    HOCKEY_STICK = 7
+    MULLET = 7
+    SALMON = 7
+    WALKING_STICK = 7
+
+    FAT_LADY = 8
+    OCHO = 8
+    SNOWMAN = 8
+    EIGHT_LAND = 8
+    RACE_TRACK = 8
+    TIME_TRAVEL = 8
+    HOG_NADS = 8
+
+    NEENER = 9
+    NINA_ROSS = 9
+    NINER = 9
+    POTHOOK = 9
+
+    T = 10
+    DIME = 10
+    SAWBUCK = 10
+    BO_DEREK = 10
+
+    J = 11
+    BOY = 11
+    BOWER = 11
+    FISHHOOK = 11
+    HOOK = 11
+    J_BIRD = 11
+    J_BOY = 11
+    JACKAL = 11
+    JACKSON = 11
+    JACKSONVILLE = 11
+    JAKE = 11
+    JOHN = 11
+    JOHNNY = 11
+    JOHNSON = 11
+    KNAVE = 11
+    VALET = 11
+
+    Q = 12
+    COWGIRL = 12
+    DAME = 12
+    LADY = 12
+    GIRL = 12
+    HEN = 12
+    JOY_GIRL = 12
+    PAINTED_LADY = 12
+    MOP_SQUEEZER = 12
+    STENOGRAPHER = 12
+
+    K = 13
+    COWBOY = 13
+    K_BOY = 13
+    MONARCH = 13
+    SERGEANT = 13
+
+standard_suits = [Suit.SPADE, Suit.HEART, Suit.DIAMOND, Suit.CLUB]
+standard_values = [Value(rank) for rank in range(1,14)]
+face_cards = [Value.KING, Value.QUEEN, Value.JACK]
+broadway_cards = [Value.ACE, Value.KING, Value.QUEEN, Value.JACK, Value.TEN]
+number_cards = [Value(rank) for rank in range(1,11)]
+red_suits = [Suit.HEART, Suit.DIAMOND]
+black_suits = [Suit.SPADE, Suit.CLUB]
+
 
 CardTuple = namedtuple('Card', ['Suit', 'Value'])
 class Card(CardTuple):

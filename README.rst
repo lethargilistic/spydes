@@ -53,6 +53,9 @@ An enumerator for the playing card Suit that includes the standard four as `CLUB
 `SPADE`, `DIAMOND`, and `HEART`. In addition, it also allows you to mark Jokers with
 `JOKER`.
 
+A generous assortment of alternative names for the suits are available, but if
+there's a nickname that is shared between two suits, that has been omitted.
+
 standard_suits
 ______________
 For your convenience, spydes also provides a list called `standard_suits` that
@@ -73,6 +76,10 @@ Value
 ~~~~~
 An enumerator for the playing card Suit that includes the thirteen standard
 values by name.
+
+A generous assortment of alternative names for the values are available, but if
+there's a nickname that is shared between two values, that has been omitted. For
+example, there is no Value.SHARP_TOP because that refers to Aces and Fours.
 
 
 standard_values
