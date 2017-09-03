@@ -215,10 +215,7 @@ class Deck(UserList):
         
 
         #Sort those cuts into the order they need to be for returning
-        #print(len(deck_cuts), len(positions))
-        ordered_cuts = [deck_cuts[p] for p in positions]
-
-        return ordered_cuts
+        return [deck_cuts[p] for p in positions]
 
     def shuffle_cut(self, weights):
         '''Shuffle the deck by cutting the cards, replacing the cuts in the
