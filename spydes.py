@@ -30,6 +30,10 @@ class Suit(Enum):
 
     ACORN = "C"
 
+all_suits = [Suit.SPADE, Suit.HEART, Suit.DIAMOND, Suit.CLUB]
+red_suits = [Suit.HEART, Suit.DIAMOND]
+black_suits = [Suit.SPADE, Suit.CLUB]
+
 class Value(Enum):
     ACE = 1
     ONE = 1
@@ -140,14 +144,10 @@ class Value(Enum):
     MONARCH = 13
     SERGEANT = 13
 
-standard_suits = [Suit.SPADE, Suit.HEART, Suit.DIAMOND, Suit.CLUB]
-standard_values = [Value(rank) for rank in range(1,14)]
-face_cards = [Value.KING, Value.QUEEN, Value.JACK]
-broadway_cards = [Value.ACE, Value.KING, Value.QUEEN, Value.JACK, Value.TEN]
-number_cards = [Value(rank) for rank in range(1,11)]
-red_suits = [Suit.HEART, Suit.DIAMOND]
-black_suits = [Suit.SPADE, Suit.CLUB]
-
+all_values = [Value(rank) for rank in range(1,14)]
+face_values = [Value.KING, Value.QUEEN, Value.JACK]
+broadway_values = [Value.ACE, Value.KING, Value.QUEEN, Value.JACK, Value.TEN]
+number_values = [Value(rank) for rank in range(1,11)]
 
 CardTuple = namedtuple('Card', ['Suit', 'Value'])
 class Card(CardTuple):
