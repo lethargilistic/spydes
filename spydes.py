@@ -149,8 +149,7 @@ face_values = [Value.KING, Value.QUEEN, Value.JACK]
 broadway_values = [Value.ACE, Value.KING, Value.QUEEN, Value.JACK, Value.TEN]
 number_values = [Value(rank) for rank in range(1,11)]
 
-CardTuple = namedtuple('Card', ['Suit', 'Value'])
-class Card(CardTuple):
+class Card(namedtuple('Card', ['Suit', 'Value'])):
     def __str__(self):
         output = "_A23456789TJQK"[self.Value.value]
         output += self.Suit.value
