@@ -34,9 +34,9 @@ standard_values = [value for value in Value]
 CardTuple = namedtuple('Card', ['Suit', 'Value'])
 class Card(CardTuple):
     def __str__(self):
-        string = "_A23456789TJQK"[self.Value.value]
-        string += self.Suit.value
-        return string
+        output = "_A23456789TJQK"[self.Value.value]
+        output += self.Suit.value
+        return output
     
     def unicard(self, vary_jokers=False):
         '''Returns a unicode card representation of the card.
@@ -61,10 +61,10 @@ class Deck(UserList):
         self.data = cards
     
     def __str__(self):
-        string = '[' + str(self.data[0])
+        output = '[' + str(self.data[0])
         for card in self.data[1:]:
-            string += ', ' + str(card)
-        return string + ']'
+            output += ', ' + str(card)
+        return output + ']'
 
     def new_pack(self, packs=1, jokers=0):
         '''Fill the Deck with a new, complete set of playing card with the
@@ -80,13 +80,22 @@ class Deck(UserList):
                 for value in standard_values:
                     self.data.append(Card(suit, value))
 
-    def fill_suit(self, suit):
-        '''Add all cards of suit'''
-        pass
+    def fill_suit(self, suit, count=1):
+        '''Add all cards of a suit. Count is the number of times you want to add
+        all the cards from that suit. You may use Suit.JOKER to get one Joker.'''
+        for num in range(count):
+            if suit == Suit.JOKER:
+               self.data.append(Card(Suit.JOKER, Value(num%3+1)))
+            else:
+                for value in Value:
+                    self.data.append(Card(suit, value))
 
-    def fill_value(self, value):
-        '''Add all cards of value, excluding Jokers'''
-        pass
+    def fill_value(self, value, count=1):
+        '''Add all cards of a value. No Jokers. If you want to add jokers
+        similarly, use fill_suit()'''
+        for _ in range(count):
+            for suit in Suit:
+                self.data.append(Card(suit, value))
 
     def found_pack(self):
         '''I found this abandoned pack of playing cards at the library. It's
@@ -193,7 +202,7 @@ class Deck(UserList):
         # (13 - 9) % (2 * 2) = 0 (It equals 0, so the rest are small cuts.)
         # There are 2 more cuts until we hit our target.
         #
-        # 3 large cuts * 3 cards + 2 small cuts * 2 cards = 9 + 4 = 13. Correct.
+        # 3 large cuts of 3 cards + 2 small cuts of 2 cards = 9 + 4 = 13. Correct!
         # 
         # Note that the modulo sequence 3,2,1,0 in this example is a coincidence.
         while (len(self.data) - position) % (small_cut_size * remaining_cuts) != 0:
@@ -220,6 +229,13 @@ class Deck(UserList):
 
         self.data = new_deck
 
+    def unicard(self, vary_jokers=False):
+        '''Display all cards in Deck as unicode cards'''
+        output = ""
+        for card in self.data:
+            output += card.unicard() + ' '
+        return output
+
 class Hand(Deck):
     '''An alias for the Deck class that allows you to differentiate hands by
     type.'''
@@ -227,25 +243,8 @@ class Hand(Deck):
         self.data = cards
 
 if __name__ == '__main__':
-    d0 = Deck()
-    d0.new_pack()
-    d = Deck(d0[:])
-
-    c = d.cut([1,2,3,4,5,6])
-    for i, cut in enumerate(c):
-
-        for j, card in enumerate(cut):
-            #print(type(card))
-            print(card.unicard(), end='|')
-        print(end=' ')
-    print()
-    
-    c = d.cut([6,5,4,3,2,1])
-    for i, cut in enumerate(c):
-
-        for j, card in enumerate(cut):
-            #print(type(card))
-            print(card.unicard(), end='|')
-        print(end=' ')
-    print()
-    
+    d = Deck()
+    d.fill_suit(Suit.SPADE)
+    d.fill_suit(Suit.DIAMOND, 2)
+    d.fill_suit(Suit.JOKER, 6)
+    print(d.unicard())
