@@ -1,5 +1,6 @@
 from collections import namedtuple, UserList
 from enum import Enum, unique
+from math import ceil, floor
 from random import choice, randint, sample, shuffle
 from unicards import unicard
 
@@ -79,6 +80,14 @@ class Deck(UserList):
                 for value in standard_values:
                     self.data.append(Card(suit, value))
 
+    def fill_suit(self, suit):
+        '''Add all cards of suit'''
+        pass
+
+    def fill_value(self, value):
+        '''Add all cards of value, excluding Jokers'''
+        pass
+
     def found_pack(self):
         '''I found this abandoned pack of playing cards at the library. It's
         probably not complete... But what if it is...? Oh, wow. Who cares? Look
@@ -89,7 +98,6 @@ class Deck(UserList):
         full_deck.new_pack(jokers=randint(0,2))
 
         self.data = sample(full_deck, randint(0,len(full_deck)))
-
     
     def discard_random(self, count=1):
         '''Discard [count] random cards.'''
@@ -133,6 +141,7 @@ class Deck(UserList):
         '''Look at cards off the top of the deck.'''
         return self.data[-count:]
 
+    #TODO
     def sort(self):
         '''Sorts the cards in the order of Suit, then Value. Jokers first
         overall.'''
@@ -142,27 +151,65 @@ class Deck(UserList):
         '''Shuffle the Deck using random.shuffle().'''
         shuffle(self.data)
 
-    #FIXME: Doesn't detect if there are more weights than cards.
-    #FIXME: Might have a bug where it loses a card if the slices are not even.
-    #For example, four cards and three slices. Testing needed.
+    #TODO: test
+    def shuffle_piles(self, pile_count=5):
+        '''Shuffle by drawing cards and putting them in separate piles'''
+        new_deck = []
+        for pile_number in pile_count:
+            new_deck += self.data[::pile_number]
+
+        self.data = new_deck
+
     def cut(self, weights):
         '''Cut the deck, return the cuts as list elements. Each slice is given an
         integer weight, in order, from the list `weights`.  The slices are
         returned in the order of their weight. This means that a simple [1,0,2]
         will work, as will [2,1,3], as will [0, -765, 100000].'''
         if len(weights) > len(self):
-            raise IndexError('There are more slices to your cut than cards in the deck')
+            raise IndexError('There are more slices to your cut than there are cards')
 
         #https://stackoverflow.com/a/7851166
         positions = sorted(range(len(weights)), key=lambda k: weights[k])
 
-        cut_size = len(self.data) // len(weights)
+        large_cut_size = ceil(len(self.data) / len(positions))
+        small_cut_size = floor(len(self.data) / len(positions))
 
         deck_cuts = []
-        for p in positions:
-            deck_cuts.append(self.data[cut_size*p:cut_size*(p+1)])
+        #Break the deck into optimally smooth cuts
+        position = 0
+        remaining_cuts = len(weights)
 
-        return deck_cuts
+        # The optimally smooth cut can be found with an iterative algorithm
+        #  1) Take all the large cuts until you can fill the rest with small cuts
+        #     Detect this with: (cards - position) % (small * remaining_cuts) == 0
+        #  2) Take all the small cuts
+        #
+        # A worked example:
+        # 13 cards, 5 cuts (large cut: 3, small cut: 2)
+        #
+        # (13 - 0) % (2 * 5) = 3 (take a large slice of 3, position+=3, cuts-=1)
+        # (13 - 3) % (2 * 4) = 2 (take a large slice of 3, position+=3, cuts-=1)
+        # (13 - 6) % (2 * 3) = 1 (take a large slice of 3, position+=3, cuts-=1)
+        # (13 - 9) % (2 * 2) = 0 (It equals 0, so the rest are small cuts.)
+        # There are 2 more cuts until we hit our target.
+        #
+        # 3 large cuts * 3 cards + 2 small cuts * 2 cards = 9 + 4 = 13. Correct.
+        # 
+        # Note that the modulo sequence 3,2,1,0 in this example is a coincidence.
+        while (len(self.data) - position) % (small_cut_size * remaining_cuts) != 0:
+            deck_cuts.append(self.data[position:position+large_cut_size])
+            position += large_cut_size
+            remaining_cuts -= 1
+        while position <= len(self.data):
+            deck_cuts.append(self.data[position:position+small_cut_size])
+            position += small_cut_size
+        
+
+        #Sort those cuts into the order they need to be for returning
+        #print(len(deck_cuts), len(positions))
+        ordered_cuts = [deck_cuts[p] for p in positions]
+
+        return ordered_cuts
 
     def shuffle_cut(self, weights):
         '''Shuffle the deck by cutting the cards, replacing the cuts in the
@@ -180,21 +227,25 @@ class Hand(Deck):
         self.data = cards
 
 if __name__ == '__main__':
-    d = Deck()
-    d.new_pack()
+    d0 = Deck()
+    d0.new_pack()
+    d = Deck(d0[:])
 
-    h = Hand()
-    d.deal(h, 5)
-    for card in h:
-        print(card.unicard(True))
+    c = d.cut([1,2,3,4,5,6])
+    for i, cut in enumerate(c):
+
+        for j, card in enumerate(cut):
+            #print(type(card))
+            print(card.unicard(), end='|')
+        print(end=' ')
     print()
+    
+    c = d.cut([6,5,4,3,2,1])
+    for i, cut in enumerate(c):
 
-    h.rotate(1)
-
-    for card in h:
-        print(card.unicard(True))
+        for j, card in enumerate(cut):
+            #print(type(card))
+            print(card.unicard(), end='|')
+        print(end=' ')
     print()
-    #for card in d:
-    #    print(card.unicard(True))
-
-    #print(h)
+    
