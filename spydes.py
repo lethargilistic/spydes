@@ -107,22 +107,32 @@ class Deck(UserList):
 
         self.data = sample(full_deck, randint(0,len(full_deck)))
     
-    #TODO
     def discard_suit(self, suit):
-        pass
+        '''Discard all cards of the suit, return as list'''
+        discard_pile = []
+        for card in self.data:
+            if card.suit == suit:
+                self.data.remove(card)
+                discard_pile.append(card)
+        return discard_pile
 
-    #TODO
+
     def discard_value(self, value):
-        pass
+        '''Discard all cards of the value, return as list. Jokers are treated as
+        a suit, so you cannot discard jokers with this method.'''
+        discard_pile = []
+        for card in self.data:
+            if card.value == value and card.suit != Suit.joker:
+                self.data.remove(card)
+                discard_pile.append(card)
+        return discard_pile
 
-    #TODO
-    def discard_specific(self, card):
-        pass
-    
     def discard_random(self, count=1):
         '''Discard [count] random cards.'''
+        discard_pile = []
         for _ in range(count):
-            self.data.remove(choice(self.data))
+            discard_pile.append(self.data.remove(choice(self.data)))
+        return discard_pile
             
     def deal(self, hand, count=1):
         '''Deal from the Deck into the hand'''
