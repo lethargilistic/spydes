@@ -20,7 +20,8 @@ AUTHOR = 'Mike Overby'
 
 # What packages are required for this module to be executed?
 REQUIRED = [
-    'unicards==0.6'
+    'unicards==0.6',
+    'pytest==3.2.1'
 ]
 
 # The rest you shouldn't have to touch too much :)
