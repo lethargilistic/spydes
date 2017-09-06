@@ -1,3 +1,4 @@
 __pycache__/*
 .cache/*
 spydes.egg-info/*
+spydes/__pycache__/*
