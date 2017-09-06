@@ -9,7 +9,7 @@ else's project. I'm not a jerk.
 
 How to use it
 -------------
-Card
+``Card``
 ~~~~
 A ``Card`` is a namedtuple with extensions for printing out to the screen.
 The tuple has two values, ``Suit`` and ``Value``, which are intended to take their
