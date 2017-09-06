@@ -4,7 +4,7 @@ from math import ceil, floor
 from random import choice, randint, sample, shuffle
 from unicards import unicard
 
-from card_enum import Suit, Value
+from .card_enum import Suit, Value
 
 all_suits = [Suit.spade, Suit.heart, Suit.diamond, Suit.club]
 red_suits = [Suit.heart, Suit.diamond]

@@ -20,7 +20,7 @@ AUTHOR = 'Mike Overby'
 
 # What packages are required for this module to be executed?
 REQUIRED = [
-    'unicard'
+    'unicards==0.6'
 ]
 
 # The rest you shouldn't have to touch too much :)
