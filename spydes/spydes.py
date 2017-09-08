@@ -4,7 +4,13 @@ from math import ceil, floor
 from random import choice, randint, sample, shuffle
 from unicards import unicard
 
-from .card_enum import Suit, Value
+#pytest says to have a dot. Me running this program says to not have a dot.
+#Eventually(TODO), I'll remove the no dot version, but I'm still rapid
+#prototyping right now
+try:
+    from .card_enum import Suit, Value
+except ModuleNotFoundError:
+    from card_enum import Suit, Value
 
 all_suits = [Suit.spade, Suit.heart, Suit.diamond, Suit.club]
 red_suits = [Suit.heart, Suit.diamond]
