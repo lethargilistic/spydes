@@ -25,29 +25,38 @@ class Card(namedtuple('Card', ['Suit', 'Value'])):
         '''Does card have the same suit as self?'''
         return self.Suit == card.Suit
 
+    #FIXME: What if you compare a Joker Value 3 with a 3 card?
     def same_value(self, card):
         '''Does card have the same value as self? All Jokers are equivalent,
         regardless of value.'''
         both_jokers = self.Suit == Suit.joker and card.Suit == Suit.joker
         return self.Value == card.Value or both_jokers
 
-    def unicard(self, vary_jokers=False):
-        '''Returns a unicode card representation of the card.
+    def unicard(self, vary_jokers=False, color=False):
+        '''Returns a Unicode card representation of the card.
 
-        If vary_jokers is True, then all three unicode jokers may be
+        If vary_jokers is True, then all three Unicode jokers may be
         represented. The Value of a joker card (1,2,3) determines which is
         shown.
         
         If vary_jokers is False, then all jokers will look like the 1 joker
         card. That 1 joker is one most likely to work correctly in
-        terminals, assuming not all are supported properly.'''
+        terminals, assuming not all are supported properly.
+        
+        If you set color to True, the cards will be converted to color in
+        terminals.'''
         if self.Suit == Suit.joker:
             if vary_jokers:
                 return "_🃏🃟🂿"[self.Value.value%3+1] #%3+1 guarantees list bounds
             else:
                 return "🃏"
 
-        return unicard("_A23456789TJQK"[self.Value.value] + self.Suit.value.lower())
+        return unicard("_A23456789TJQK"[self.Value.value]
+                        + self.Suit.value.lower(), color=color)
+
+    def unicard_back():
+        '''Return a facedown card Unicode string'''
+        return unicard('b')
 
 class Deck(UserList):
     def __init__(self, cards=[]):
@@ -245,11 +254,12 @@ class Deck(UserList):
 
         self.data = new_deck
 
-    def unicard(self, vary_jokers=False):
-        '''Display all cards in Deck as unicode cards'''
+    def unicard(self, vary_jokers=False, color=False):
+        '''Display all cards in Deck as Unicode cards. The arguments will be
+        applied to all cards.'''
         output = ""
         for card in self.data:
-            output += card.unicard() + ' '
+            output += card.unicard(vary_jokers=vary_jokers, color=color) + ' '
         return output
 
 class Hand(Deck):
@@ -260,5 +270,5 @@ class Hand(Deck):
 
 if __name__ == '__main__':
     d = Deck()
-    d.fill_suit(Suit.spade)
-    print(repr(d))
+    d.new_pack(jokers=5)
+    print(d.unicard(vary_jokers=True, color=True))
