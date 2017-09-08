@@ -31,12 +31,22 @@ class Card(namedtuple('Card', ['Suit', 'Value'])):
         '''Does card have the same suit as self?'''
         return self.Suit == card.Suit
 
-    #FIXME: What if you compare a Joker Value 3 with a 3 card?
     def same_value(self, card):
         '''Does card have the same value as self? All Jokers are equivalent,
         regardless of value.'''
         both_jokers = self.Suit == Suit.joker and card.Suit == Suit.joker
-        return self.Value == card.Value or both_jokers
+        either_jokers = self.Suit == Suit.joker or card.Suit == Suit.joker
+
+        #If both are jokers, they are equivalent
+        if both_jokers:
+            return True
+
+        #If one is a joker, but not both, they are different.
+        if either_jokers:
+            return False
+        
+        #Because neither are Jokers, just compare value
+        return self.Value == card.Value
 
     def unicard(self, vary_jokers=False, color=False):
         '''Returns a Unicode card representation of the card.
