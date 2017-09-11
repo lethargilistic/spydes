@@ -20,7 +20,14 @@ AUTHOR = 'Mike Overby'
 
 # What packages are required for this module to be executed?
 REQUIRED = [
-    'unicards==0.6',
+    'unicards==0.6'
+
+]
+
+# What packages are required for running the test suite?
+# To install them run for bas : "pip install .[test]"
+# for zsh, run "pip install.\[test\]"
+TEST_REQUIRED = [
     'pytest==3.2.1'
 ]
 
@@ -46,7 +53,7 @@ class PublishCommand(Command):
 
     description = 'Build and publish the package.'
     user_options = []
-    
+
     @staticmethod
     def status(s):
         """Prints things in bold."""
@@ -91,6 +98,9 @@ setup(
     #     'console_scripts': ['mycli=mymodule:cli'],
     # },
     install_requires=REQUIRED,
+    extras_require={
+        'test':TEST_REQUIRED
+    },
     include_package_data=True,
     license='MIT',
     classifiers=[
@@ -103,7 +113,7 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: Implementation :: CPython',
     ],
-    # $ setup.py publish support. 
+    # $ setup.py publish support.
     cmdclass={
         'publish': PublishCommand,
     },
