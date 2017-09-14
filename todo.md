@@ -1,6 +1,8 @@
 * Hand detection, with nicknames
 * Separate tests from code
 * Test every method
+* setup a CI (like Travis CI)
+* add "usage" and "Development setup" to README
 * Implement a game with spydes
 * Document each method
 * Implement `__cmp__` for cards
