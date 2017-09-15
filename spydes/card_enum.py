@@ -1,30 +1,48 @@
 from enum import Enum
 
 class Suit(Enum):
-    joker = "*"
-    spade = "S"
-    heart = "H"
-    diamond = "D"
-    club = "C"
+    joker = 0
+    spade = 1
+    heart = 2
+    diamond = 3
+    club = 4
 
-    wildcard = "*"
-    pagliacci = "*"
-    old_maid = "*"
-    trump_carD = "*"
-    best_boweR = "*"
-    the_fool = "*"
-    the_fly = "*"
-    the_bird = "*"
+    wildcard = 0
+    pagliacci = 0
+    old_maid = 0
+    trump_card = 0
+    best_bower = 0
+    the_fool = 0
+    the_fly = 0
+    the_bird = 0
 
-    leaf = "S"
-    shield = "S" 
+    leaf = 1
+    shield = 1 
     
-    rose = "H" 
+    rose = 2 
 
-    tile = "D"
-    bell = "D"
+    tile = 3
+    bell = 3
 
-    acorn = "C"
+    acorn = 4
+
+    def __lt__(self, other):
+        return self.value < other.value
+
+    def ___le__(self, other):
+        return self.value <= other.value
+
+    def __eq__(self, other):
+        return self.value == other.value
+
+    def __ne__(self, other):
+        return self.value != other.value
+
+    def __gt__(self, other):
+        return self.value > other.value
+
+    def __ge__(self, other):
+        return self.value >= other.value
 
 class Value(Enum):
     ace = 1
@@ -136,4 +154,21 @@ class Value(Enum):
     monarch = 13
     sergeant = 13
 
+    def __lt__(self, other):
+        return self.value < other.value
+
+    def ___le__(self, other):
+        return self.value <= other.value
+
+    def __eq__(self, other):
+        return self.value == other.value
+
+    def __ne__(self, other):
+        return self.value != other.value
+
+    def __gt__(self, other):
+        return self.value > other.value
+
+    def __ge__(self, other):
+        return self.value >= other.value
 

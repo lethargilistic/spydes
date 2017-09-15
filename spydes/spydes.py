@@ -68,7 +68,7 @@ class Card(namedtuple('Card', ['Suit', 'Value'])):
                 return "🃏"
 
         return unicard("_A23456789TJQK"[self.Value.value]
-                        + self.Suit.value.lower(), color=color)
+                        + self.Suit.name[0].lower(), color=color)
 
     def unicard_back():
         '''Return a facedown card Unicode string'''
@@ -200,8 +200,7 @@ class Deck(UserList):
     def sort(self):
         '''Sorts the cards in the order of Suit, then Value. Jokers first
         overall.'''
-        self.data = sorted(self.data, key=lambda card:
-                (all_suits.index(card.Suit), card.Value.value))
+        self.data = sorted(self.data, key=lambda card: (card.Suit, card.Value))
     
     def shuffle(self):
         '''Shuffle the Deck using random.shuffle().'''
@@ -288,7 +287,7 @@ class Hand(Deck):
 
 if __name__ == '__main__':
     d = Deck()
-    d.new_pack(jokers=0)
+    d.new_pack(jokers=4)
     d.shuffle()
     print(d.unicard())
     d.sort()
