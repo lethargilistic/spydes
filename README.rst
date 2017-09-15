@@ -2,7 +2,7 @@ Spydes
 ======
 
 Python3-exclusive playing cards in four suits, with and without
-jokers.
+jokers, provided as a library for your gaming pleasure.
 
 It's time to let go of Legacy Python, but I'm not about to rip it out of someone
 else's project. I'm not a jerk.
