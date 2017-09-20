@@ -60,9 +60,9 @@ there's a nickname that is shared between two suits, that has been omitted. All 
 nicknames are singular, not plural.
 
 
-``standard_suits``
+``all_suits``
 ______________
-For your convenience, spydes also provides a list called ``standard_suits`` that
+For your convenience, spydes also provides a list called ``all_suits`` that
 includes only the four suits, without the Joker. You may iterate through this if
 you want to do some aggregate operation with just the suits. 
 
@@ -86,11 +86,11 @@ example, there is no Value.SHARP_TOP because that refers to Aces and Fours. All
 of these nicknames are singular, not plural.
 
 
-``standard_values``
+``all_values``
 _______________
-For your convenience, spydes also provides a list called ``standard_values``. You
+For your convenience, spydes also provides a list called ``all_values``. You
 can iterate through it to get all the suits, in numerical order. It mostly
-exists for consistency with ``standard_suits``
+exists for consistency with ``all_suits``
 
 
 How to license it
