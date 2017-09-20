@@ -208,10 +208,17 @@ class Deck(UserList):
 
     #TODO: test
     def shuffle_piles(self, pile_count=5):
-        '''Shuffle by drawing cards and putting them in separate piles'''
+        '''Shuffle by drawing cards and putting them in separate piles. The
+        piles are put back together in a random order.'''
+        piles = []
+        for pile_number in range(pile_count):
+            piles.append(self.data[pile_number::pile_count])
+
+        shuffle(piles)
+
         new_deck = []
-        for pile_number in pile_count:
-            new_deck += self.data[::pile_number]
+        for pile in piles:
+            new_deck.extend(pile)
 
         self.data = new_deck
 
@@ -287,8 +294,9 @@ class Hand(Deck):
 
 if __name__ == '__main__':
     d = Deck()
-    d.new_pack(jokers=4)
-    d.shuffle()
+    d.fill_suit(Suit.club)
     print(d.unicard())
-    d.sort()
+    d.shuffle_piles(3)
+    print(type(d))
     print(d.unicard())
+    
