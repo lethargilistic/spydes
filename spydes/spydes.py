@@ -195,8 +195,6 @@ class Deck(UserList):
         '''Look at cards off the top of the deck.'''
         return self.data[-count:]
 
-    #FIXME: If there are any jokers in the deck, this breaks
-    #Just remove all jokers and count how many there were, add to front?
     def sort(self):
         '''Sorts the cards in the order of Suit, then Value. Jokers first
         overall.'''
@@ -294,9 +292,17 @@ class Hand(Deck):
 
 if __name__ == '__main__':
     d = Deck()
-    d.fill_suit(Suit.club)
+    ''' d.fill_suit(Suit.club)
     print(d.unicard())
     d.shuffle_piles(3)
     print(type(d))
+    print(d.unicard())'''
+
+    d.new_pack(jokers=2)
     print(d.unicard())
+    d.shuffle()
+    print(d.unicard())
+    d.sort()
+    print(d.unicard())
+
     
