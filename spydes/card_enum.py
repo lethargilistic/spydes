@@ -25,6 +25,7 @@ class Suit(Enum):
     bell = 3
 
     acorn = 4
+    clover = 4
 
     def __lt__(self, other):
         return self.value < other.value
