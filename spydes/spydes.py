@@ -24,7 +24,7 @@ number_values = [Value(rank) for rank in range(1,11)]
 class Card(namedtuple('Card', ['Suit', 'Value'])):
     def __str__(self):
         output = "_A23456789TJQK"[self.Value.value]
-        output += self.Suit.value
+        output += self.Suit.name[0]
         return output
     
     def same_suit(self, card):
@@ -298,11 +298,10 @@ if __name__ == '__main__':
     print(type(d))
     print(d.unicard())'''
 
-    d.new_pack(jokers=2)
+    f = Deck()
+
+    f.fill_suit(Suit.spade)
     print(d.unicard())
-    d.shuffle()
-    print(d.unicard())
-    d.sort()
-    print(d.unicard())
+    #FIXME: Deck objects share data? What?
 
     
